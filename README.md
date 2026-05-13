@@ -48,7 +48,7 @@ SSHCheck/
 
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/YOUR_USER/SSHCheck.git
+git clone https://github.com/d4rknessw3b/SSHCheck.git
 cd SSHCheck
 
 # Запустите автоустановщик (требует root)
