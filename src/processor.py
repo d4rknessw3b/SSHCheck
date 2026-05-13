@@ -20,6 +20,8 @@ from .bot import send_alert, format_alert
 
 logger = logging.getLogger(__name__)
 
+BLOCKED_IPS: set[str] = set()
+
 
 async def process_events(
     queue: asyncio.Queue,
@@ -96,7 +98,9 @@ async def _handle_event(
 
     # 6. Авто-блокировка через ufw
     if config.auto_block and total_count >= config.auto_block_threshold:
-        await _block_ip(event.ip, config, bot)
+        if event.ip not in BLOCKED_IPS:
+            await _block_ip(event.ip, config, bot)
+            BLOCKED_IPS.add(event.ip)
 
 
 async def _block_ip(ip: str, config: Config, bot: Bot) -> None:
