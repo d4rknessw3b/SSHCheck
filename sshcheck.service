@@ -1,0 +1,23 @@
+[Unit]
+Description=SSHCheck — SSH Attack Monitor with Telegram Notifications
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/sshcheck
+ExecStart=/opt/sshcheck/venv/bin/python run.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sshcheck
+
+# Безопасность (опционально, отключите если нужен auto_block через ufw)
+# NoNewPrivileges=true
+# ProtectSystem=strict
+# ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,41 @@
+# SSHCheck Configuration
+# Copy this file to config.yml and fill in your values
+
+# === Telegram Bot ===
+bot_token: "YOUR_BOT_TOKEN_HERE"   # Token from @BotFather
+chat_id: 123456789                  # Your Telegram user/chat ID
+
+# === SSH Log File ===
+log_file: "/var/log/auth.log"       # Ubuntu default
+
+# === Database ===
+db_path: "sshcheck.db"              # SQLite database path
+
+# === Alert Settings ===
+# Send alert when an IP exceeds this many failed attempts
+alert_threshold: 5
+# Minimum seconds between repeat alerts for the same IP (cooldown)
+alert_cooldown: 600
+
+# === Summary Reports ===
+# Send automatic summary every N seconds (3600 = hourly, 86400 = daily)
+# Set to 0 to disable automatic summaries
+summary_interval: 3600
+
+# === Geolocation ===
+# Use ip-api.com to resolve attacker geolocation (free, no API key needed)
+geolocation: true
+# Cache geolocation results to reduce API calls
+geo_cache_ttl: 86400   # seconds
+
+# === IP Whitelist ===
+# These IPs will never trigger alerts (e.g. your own IP)
+whitelist_ips:
+  - "127.0.0.1"
+  # - "YOUR_HOME_IP_HERE"
+
+# === Auto-block (UFW) ===
+# WARNING: Automatically block IPs with ufw. Requires root.
+# Use with caution - can lock you out if misconfigured.
+auto_block: false
+auto_block_threshold: 20  # Block after this many failed attempts

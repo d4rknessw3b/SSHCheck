@@ -1,0 +1,13 @@
+sshcheck.db
+sshcheck.log
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.idea/
+.vscode/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
