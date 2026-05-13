@@ -34,8 +34,9 @@ whitelist_ips:
   - "127.0.0.1"
   # - "YOUR_HOME_IP_HERE"
 
-# === Auto-block (UFW) ===
-# WARNING: Automatically block IPs with ufw. Requires root.
+# === Auto-block (UFW + iptables) ===
+# WARNING: Automatically block IPs with ufw and iptables. Requires root.
+# Compatible with Docker panels like Marzban and 3x-ui.
 # Use with caution - can lock you out if misconfigured.
 auto_block: false
 auto_block_threshold: 20  # Block after this many failed attempts

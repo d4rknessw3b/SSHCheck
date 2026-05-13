@@ -104,19 +104,30 @@ async def _handle_event(
 
 
 async def _block_ip(ip: str, config: Config, bot: Bot) -> None:
-    """Блокирует IP через ufw."""
+    """Блокирует IP через ufw и iptables (для совместимости с Docker/Marzban/3x-ui)."""
     try:
+        # Блокировка через ufw (стандартный хост)
         result = subprocess.run(
             ["ufw", "deny", "from", ip, "to", "any"],
             capture_output=True,
             text=True,
             timeout=10,
         )
+        
+        # Блокировка через iptables для Docker-контейнеров (Marzban, 3x-ui и т.д.)
+        # Игнорируем ошибку, если Docker не установлен (цепочки DOCKER-USER нет)
+        subprocess.run(
+            ["iptables", "-I", "DOCKER-USER", "-s", ip, "-j", "DROP"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+
         if result.returncode == 0:
-            logger.warning("IP %s заблокирован через ufw.", ip)
+            logger.warning("IP %s заблокирован через ufw и iptables (DOCKER-USER).", ip)
             text = (
                 f"🚫 *IP заблокирован*\n\n"
-                f"`{_escape(ip)}` добавлен в ufw deny\n"
+                f"`{_escape(ip)}` добавлен в ufw deny и DOCKER\\-USER\n"
                 f"Порог: {config.auto_block_threshold} попыток"
             )
             await send_alert(bot, config.chat_id, text)
